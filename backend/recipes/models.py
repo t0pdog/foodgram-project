@@ -69,7 +69,7 @@ class Recipe(models.Model):
         User,
         verbose_name='Author',
         on_delete=models.CASCADE,
-        related_name='recipe',
+        related_name='recipes',
     )
     cooking_time = models.PositiveSmallIntegerField(
         'Cooking time, min.',
@@ -110,13 +110,17 @@ class IngredientInRecipe(models.Model):
     Linking model between recipes and ingredients.
     """
     ingredient = models.ForeignKey(
-        Ingredient, on_delete=models.CASCADE
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='ingredient_amounts'
     )
     recipe = models.ForeignKey(
-        Recipe, on_delete=models.CASCADE
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='ingredient_amounts'
     )
     amount = models.PositiveIntegerField(
-        'amount of ingredient',
+        verbose_name='amount of ingredient',
         validators=[
             MinValueValidator(1),
         ],
@@ -143,12 +147,12 @@ class Favorite(models.Model):
     """
     user = models.ForeignKey(
         User,
-        related_name='favorites',
+        related_name='favorit_user',
         on_delete=models.CASCADE
     )
     recipe = models.ForeignKey(
         Recipe,
-        related_name='favorites',
+        related_name='favorit_recipe',
         on_delete=models.CASCADE
     )
 

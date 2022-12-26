@@ -6,15 +6,7 @@ from django.db import models
 class User(AbstractUser):
     """Redefining the default User model.
     Redefined fields: email, username, first_name, last_name, password.
-    Added fields: role.
     """
-    ADMINISTRATOR = 'admin'
-    USER = 'user'
-
-    ROLE_CHOICES = (
-        (ADMINISTRATOR, 'admin'),
-        (USER, 'user')
-    )
 
     email = models.EmailField(
         max_length=254,
@@ -33,13 +25,7 @@ class User(AbstractUser):
     )
     first_name = models.TextField(max_length=150)
     last_name = models.TextField(max_length=150)
-    password = models.TextField(max_length=150)
-    role = models.CharField(
-        choices=ROLE_CHOICES,
-        default=USER,
-        verbose_name='Access rights',
-        max_length=50,
-    )
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     class Meta:
         ordering = ['id']
@@ -48,10 +34,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-
-    @property
-    def access_administrator(self):
-        return self.role == self.ADMINISTRATOR
 
 
 class Follow(models.Model):
@@ -62,7 +44,7 @@ class Follow(models.Model):
         related_name='follower',
         verbose_name='follower'
     )
-    author = models.ForeignKey(
+    following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
@@ -72,11 +54,11 @@ class Follow(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['author', 'user'],
+                fields=['following', 'user'],
                 name='unique follow'
             ),
             models.CheckConstraint(
                 name="author_not_user",
-                check=~models.Q(author=models.F('user'))
+                check=~models.Q(following=models.F('user'))
             ),
         ]
