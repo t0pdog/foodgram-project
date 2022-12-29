@@ -2,30 +2,30 @@ import json
 import os
 
 from django.core.management.base import BaseCommand
+from django.conf import settings
 
-from foodgram.settings import DATA_FILES_DIR
 from recipes.models import Ingredient
 
 
 class Command(BaseCommand):
-    help = 'Loader to the database from a JSON file.'
+    help = "Loader to the database from a JSON file."
 
     def handle(self, *args, **options):
-        file_name = 'ingredients.json'
-        json_path = os.path.join(DATA_FILES_DIR, file_name)
+        file_name = "ingredients.json"
+        json_path = os.path.join(settings.DATA_FILES_DIR, file_name)
         try:
-            with open(json_path, 'rb') as file:
+            with open(json_path, "rb") as file:
                 data = json.load(file)
                 ingredients = [
                     Ingredient(
-                        name=item.get('name'),
-                        measurement_unit=item.get('measurement_unit'),
+                        name=item.get("name"),
+                        measurement_unit=item.get("measurement_unit"),
                     )
                     for item in data
                 ]
                 Ingredient.objects.bulk_create(ingredients)
-            print('finished')
-        except FileNotFoundError:
+            self.stdout.write("finished", ending='')
 
-            print(f'File {file_name} not found.')
+        except FileNotFoundError:
+            self.stderr.write(f"File {file_name} not found.", ending='')
             return

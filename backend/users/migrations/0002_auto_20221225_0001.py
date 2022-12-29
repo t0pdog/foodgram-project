@@ -7,33 +7,40 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='follow',
-            name='unique follow',
+            model_name="follow",
+            name="unique follow",
         ),
         migrations.RemoveConstraint(
-            model_name='follow',
-            name='author_not_user',
+            model_name="follow",
+            name="author_not_user",
         ),
         migrations.RenameField(
-            model_name='follow',
-            old_name='author',
-            new_name='following',
+            model_name="follow",
+            old_name="author",
+            new_name="following",
         ),
         migrations.RemoveField(
-            model_name='user',
-            name='role',
+            model_name="user",
+            name="role",
         ),
         migrations.AddConstraint(
-            model_name='follow',
-            constraint=models.UniqueConstraint(fields=('following', 'user'), name='unique follow'),
+            model_name="follow",
+            constraint=models.UniqueConstraint(
+                fields=("following", "user"), name="unique follow"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='follow',
-            constraint=models.CheckConstraint(check=models.Q(('following', django.db.models.expressions.F('user')), _negated=True), name='author_not_user'),
+            model_name="follow",
+            constraint=models.CheckConstraint(
+                check=models.Q(
+                    ("following", django.db.models.expressions.F("user")), _negated=True
+                ),
+                name="author_not_user",
+            ),
         ),
     ]
