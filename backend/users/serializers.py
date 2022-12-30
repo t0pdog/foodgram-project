@@ -1,11 +1,15 @@
+import logging
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-
 from djoser.serializers import UserCreateSerializer, UserSerializer
 
 from .models import Follow, User
 
 from recipes.models import Recipe
+
+
+logger = logging.getLogger(__name__)
 
 
 class CustomUserSerializer(UserSerializer):
@@ -146,7 +150,8 @@ class SubscriptionShowSerializer(CustomUserSerializer):
         try:
             recipes = recipes[: int(recipes_limit)]
         except TypeError:
-            print('recipes_limit is not convertible to int, or not a number')
+            logger.exception('recipes_limit is not convertible to int')
+        
         return ShortRecipeSerializer(recipes, many=True).data
 
     def get_recipes_count(self, obj):

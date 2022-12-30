@@ -1,6 +1,7 @@
 from colorfield.fields import ColorField
-from django.core.validators import MinValueValidator, RegexValidator
+from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.translation import gettext as _
 
 from users.models import User
 
@@ -10,18 +11,14 @@ class Tag(models.Model):
     Creates tags for grouping recipes.
     """
 
-    name = models.CharField("Name of the recipe", max_length=200)
+    name = models.CharField(
+        verbose_name=_("Name of the recipe"),
+        max_length=200
+    )
     slug = models.SlugField(
-        "Identifier",
+        verbose_name=_("Identifier"),
         max_length=200,
-        unique=True,
-        validators=[
-            RegexValidator(
-                regex=r"^[-\w_]+$",
-                message="The slug contains an invalid character",
-                code="invalid_character",
-            )
-        ],
+        unique=True
     )
     color = ColorField(default='#FF0000')
 
@@ -29,8 +26,8 @@ class Tag(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Tag"
-        verbose_name_plural = "Tags"
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
 
 
 class Ingredient(models.Model):
@@ -38,15 +35,21 @@ class Ingredient(models.Model):
     Creates ingredients.
     """
 
-    name = models.CharField("Name of the ingredient", max_length=200)
-    measurement_unit = models.CharField("Measurement", max_length=200)
+    name = models.CharField(
+        verbose_name=_("Name of the ingredient"),
+         max_length=200
+    )
+    measurement_unit = models.CharField(
+        verbose_name=_("Measurement"),
+        max_length=200
+    )
 
     def __str__(self) -> str:
         return self.name
 
     class Meta:
-        verbose_name = "Ingredient"
-        verbose_name_plural = "Ingredients"
+        verbose_name = _("Ingredient")
+        verbose_name_plural = _("Ingredients")
         constraints = (
             models.UniqueConstraint(
                 fields=["name", "measurement_unit"],
@@ -61,20 +64,23 @@ class Recipe(models.Model):
     Creates recipes.
     """
 
-    name = models.TextField("Name of the recipe", max_length=200)
+    name = models.TextField(
+        verbose_name=_("Name of the recipe"),
+        max_length=200
+    )
     text = models.TextField(
-        "Description",
+        verbose_name=_("Description"),
         blank=True,
         null=True,
     )
     author = models.ForeignKey(
         User,
-        verbose_name="Author",
+        verbose_name=_("Author"),
         on_delete=models.CASCADE,
         related_name="recipes",
     )
     cooking_time = models.PositiveSmallIntegerField(
-        "Cooking time, min.",
+        verbose_name=_("Cooking time, min."),
         validators=[
             MinValueValidator(1),
         ],
@@ -107,7 +113,7 @@ class IngredientInRecipe(models.Model):
         Recipe, on_delete=models.CASCADE, related_name="ingredient_amounts"
     )
     amount = models.PositiveSmallIntegerField(
-        verbose_name="amount of ingredient",
+        verbose_name=_("amount of ingredient"),
         validators=[
             MinValueValidator(1),
         ],
@@ -117,8 +123,8 @@ class IngredientInRecipe(models.Model):
         return f"{self.recipe} contain {self.ingredient}"
 
     class Meta:
-        verbose_name = "Ingredient in recipe"
-        verbose_name_plural = "Ingredients in recipe"
+        verbose_name = _("Ingredient in recipe")
+        verbose_name_plural = _("Ingredients in recipe")
         ordering = ("id",)
         constraints = (
             models.UniqueConstraint(
@@ -143,7 +149,7 @@ class Favorite(models.Model):
         return f"{self.recipe} in the {self.user}'s favorites"
 
     class Meta:
-        verbose_name = "Favorites list"
+        verbose_name = _("Favorites list")
         ordering = ("id",)
         constraints = (
             models.UniqueConstraint(
@@ -169,7 +175,7 @@ class ShoppingCart(models.Model):
         return f"{self.recipe} in the {self.user}'s shopping list"
 
     class Meta:
-        verbose_name = "Shopping list"
+        verbose_name = _("Shopping list")
         ordering = ("user",)
         constraints = (
             models.UniqueConstraint(
