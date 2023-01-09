@@ -151,7 +151,7 @@ class SubscriptionShowSerializer(CustomUserSerializer):
             recipes = recipes[: int(recipes_limit)]
         except TypeError:
             logger.exception('recipes_limit is not convertible to int')
-        
+
         return ShortRecipeSerializer(recipes, many=True).data
 
     def get_recipes_count(self, obj):

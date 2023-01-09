@@ -37,7 +37,7 @@ class Ingredient(models.Model):
 
     name = models.CharField(
         verbose_name=_("Name of the ingredient"),
-         max_length=200
+        max_length=200
     )
     measurement_unit = models.CharField(
         verbose_name=_("Measurement"),
@@ -85,7 +85,9 @@ class Recipe(models.Model):
             MinValueValidator(1),
         ],
     )
-    image = models.ImageField(upload_to="recipes/images/", null=True, default=None)
+    image = models.ImageField(
+        upload_to="recipes/images/", null=True, default=None
+    )
     ingredients = models.ManyToManyField(
         "Ingredient", verbose_name="Ingredient", through="IngredientInRecipe"
     )
@@ -128,7 +130,8 @@ class IngredientInRecipe(models.Model):
         ordering = ("id",)
         constraints = (
             models.UniqueConstraint(
-                fields=["ingredient", "recipe"], name="unique_ingredient_recipe"
+                fields=["ingredient", "recipe"],
+                name="unique_ingredient_recipe"
             ),
         )
 
