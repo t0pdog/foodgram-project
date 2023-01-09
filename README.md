@@ -1,3 +1,10 @@
+Данные админа для входа на сайт:
+логин: q
+почта: qq@q.ru
+пароль: q
+
+
+
 # [Foodgram](http://foodgrammy.serveblog.net/recipes) blog for creating recipes and shopping lists.
 
 ![Build Status](https://github.com/t0pdog/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
