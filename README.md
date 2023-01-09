@@ -123,7 +123,7 @@ http://127.0.0.1/recipes
 
 * TELEGRAM_TO = your Telegram account id
 * TELEGRAM_TOKEN = your Telegram bot token
-
+```
 #### 1. Log in to a remote server:
 ```bash
 ssh <username>@<ip_address>
@@ -156,5 +156,12 @@ sudo docker-compose exec backend python manage.py createsuperuser
 sudo docker-compose exec backend python manage.py collectstatic --no-input
 ```
 
-The API is available at [http://foodgrammy.serveblog.net/api/]
-API documentation is available at [http://foodgrammy.serveblog.net/api/docs/]
+The API is available at
+```
+http://foodgrammy.serveblog.net/api/
+```
+
+API documentation is available at
+```
+http://foodgrammy.serveblog.net/api/docs/
+```
