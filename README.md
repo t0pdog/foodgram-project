@@ -160,8 +160,3 @@ The API is available at
 ```
 http://foodgrammy.serveblog.net/api/
 ```
-
-API documentation is available at
-```
-http://foodgrammy.serveblog.net/api/docs/
-```
