@@ -1,10 +1,3 @@
-Данные админа для входа на сайт:
-логин: q
-почта: qq@q.ru
-пароль: q
-
-
-
 # [Foodgram](http://foodgrammy.serveblog.net/recipes) blog for creating recipes and shopping lists.
 
 ![Build Status](https://github.com/t0pdog/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
@@ -23,9 +16,6 @@
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat&logo=GitHub%20actions&logoColor=56C0C0&color=008080)](https://github.com/features/actions)
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat&logo=Yandex.Cloud&logoColor=56C0C0&color=008080)](https://cloud.yandex.ru/)
 
-### The service is available on:
-http://foodgrammy.serveblog.net/
-http://62.84.117.17/
 
 ## Description.
 On this service, users will be able to publish recipes, subscribe to publications of other users, add their favorite recipes to the "Favorites" list, and before going to the store, download a summary list of products needed to prepare one or more selected dishes.
@@ -161,9 +151,4 @@ sudo docker-compose exec backend python manage.py migrate
 ```bash
 sudo docker-compose exec backend python manage.py createsuperuser
 sudo docker-compose exec backend python manage.py collectstatic --no-input
-```
-
-The API is available at
-```
-http://foodgrammy.serveblog.net/api/
 ```
